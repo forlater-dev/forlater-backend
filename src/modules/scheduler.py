@@ -6,7 +6,7 @@ from db.tasks import find_many
 from shared.clock import utc_now
 
 if TYPE_CHECKING:
-    from _typing import Dispatch
+    from _typing import TaskCallback
     from datetime import datetime
 
     from db._typing import Task
@@ -25,7 +25,7 @@ async def pull_tasks():
 
 
 # TODO(shrewd): implement PQ wrapper to get rid of type cast hack
-async def push_tasks(dispatch: Dispatch):
+async def push_tasks(dispatch: TaskCallback):
     while True:
         if pq.empty():
             pq_updated.clear()
@@ -33,7 +33,7 @@ async def push_tasks(dispatch: Dispatch):
             continue
         entry = cast(
             "tuple[datetime, Task]",
-            pq._queue[0],  # pyright: ignore[reportAttributeAccessIssue]
+            pq._queue[0],  # pyright: ignore[reportAttributeAccessIssue] #noqa: SLF001
         )
         due_date, task = entry
         delay = (due_date - utc_now()).total_seconds()
@@ -47,7 +47,7 @@ async def push_tasks(dispatch: Dispatch):
         _, task = pq.get_nowait()
         await dispatch(task)
 
-async def main(dispatch: Dispatch):
+async def main(dispatch: TaskCallback):
     async with asyncio.TaskGroup() as task_group:
         task_group.create_task(pull_tasks())
         task_group.create_task(push_tasks(dispatch))
