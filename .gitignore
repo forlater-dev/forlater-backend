@@ -1,11 +1,20 @@
+# Local secrets (keep the example trackable)
 .env
 .env.*
 !.env.example
+
+# Python bytecode
 __pycache__/
 *.py[cod]
 *$py.class
+
+# Virtual environments and local uv cache
 .venv/
 venv/
 env/
+.uv-cache/
 
+# Commit pyproject.toml, uv.lock, and .python-version.
 
+# macOS
+.DS_Store

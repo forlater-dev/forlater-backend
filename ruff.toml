@@ -1,0 +1,47 @@
+# See https://docs.astral.sh/ruff/configuration/
+# For a full list of supported rules, see https://docs.astral.sh/ruff/rules/
+# For a full list of options, see https://docs.astral.sh/ruff/settings/
+
+target-version = "py314"
+
+[lint]
+ignore = [
+    "COM812",  # Trailing comma missing
+    "D100",    # Missing docstring in public module
+    "D101",    # Missing docstring in public class
+    "D102",    # Missing docstring in public method
+    "D103",    # Missing docstring in public function
+    "D104",    # Missing docstring in public package
+    "D105",    # Missing docstring in magic method
+    "D106",    # Missing docstring in public nested class
+    "D107",    # Missing docstring in __init__
+    "D200",    # One-line docstring should fit on one line
+    "D203",    # Checks for docstrings on class definitions that are not preceded by a blank line.
+    "D205",    # 1 blank line required between summary line and description
+    "D212",    # Multi-line docstring summary should start at the first line
+    "D213",    # Multi-line docstring summary should start at the second line
+    "D400",    # First line should end with a period
+    "D401",    # First line of docstring should be in imperative mood: "{first_line}"
+    "D413",    # Missing blank line after last section ("{name}")
+    "D415",    # First line should end with a period, question mark, or exclamation point
+    "FIX002",  # Line contains TODO, consider resolving the issue
+    "PT027",   # Use pytest.raises instead of unittest-style {assertion}
+    "PT028",   # Test function parameter {} has default argument
+    "RET504",  # Unnecessary assignment to {name} before return statement
+    "RSE102",  # Unnecessary parentheses on raised exception
+    "S101",    # Use of assert detected
+    "TD003",   # Missing issue link for this TODO
+    "UP024",   # Replace aliased errors with OSError
+    "CPY001",  # Missing copyright notice at top of file
+    "UP037",   # Remove quotes from type annotation
+    "ARG001",  # Unused function argument: `response`
+    "F841",    # Local variable `claimer` is assigned to but never used
+    "ANN201",  # Missing return type annotation for public function `{function}`
+    "ANN202",  # Missing return type annotation for private function `{function}`
+    "ANN204",  # Missing return type annotation for special method `__call__`
+    "ANN002",  # Missing type annotation for `*args`
+    "ANN003",  # Missing type annotation for `**kwargs`
+    "INP001",  # File `{filename}` is part of an implicit namespace package. Add an `__init__.py`.
+]
+
+select = ["ALL"]

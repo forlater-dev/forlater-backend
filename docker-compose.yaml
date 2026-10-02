@@ -1,0 +1,51 @@
+name: forlater
+
+services:
+  postgres:
+    image: postgres:18-trixie
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\""]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  api:
+    build: .
+    image: forlater-backend:local
+    command: ["/app/.venv/bin/uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+    env_file: .env
+    environment:
+      PYTHONUNBUFFERED: "1"
+      PYTHONPATH: /app/src
+    volumes:
+      - ./main.py:/app/main.py:ro
+      - ./src:/app/src:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:${API_PORT}:8000"
+
+  engine:
+    build: .
+    image: forlater-backend:local
+    command: ["/app/.venv/bin/watchfiles", "--filter", "python", "/app/.venv/bin/python -m engine.main", "/app/src"]
+    env_file: .env
+    environment:
+      PYTHONUNBUFFERED: "1"
+      PYTHONPATH: /app/src
+    volumes:
+      - ./src:/app/src:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:

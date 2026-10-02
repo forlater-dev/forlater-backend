@@ -1,0 +1,20 @@
+[project]
+name = "forlater-backend"
+version = "0.1.0"
+description = "Forlater FastAPI backend"
+readme = "README.md"
+requires-python = ">=3.14,<3.15"
+dependencies = [
+    "fastapi==0.142.2",
+    "python-dotenv==1.2.4",
+    "uvicorn[standard]==0.54.0",
+    "workos==10.5.0",
+]
+
+[tool.uv]
+package = false
+
+[dependency-groups]
+dev = [
+    "ruff>=0.16.10",
+]

@@ -1,9 +1,9 @@
 import os
+
 from dotenv import load_dotenv
 from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
-import workos
 from workos import WorkOSClient
 
 load_dotenv()
@@ -44,7 +44,7 @@ def callback(code: str, response: Response):
         value=profile.id,
         httponly=True,
         samesite="lax",
-        secure=False,  
+        secure=False,
         domain="localhost",
     )
 
