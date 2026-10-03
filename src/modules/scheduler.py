@@ -6,7 +6,7 @@ from db.tasks import find_many
 from shared.clock import utc_now
 
 if TYPE_CHECKING:
-    from _typing import TaskCallback
+    from _typing import AsyncCallback
     from datetime import datetime
 
     from db._typing import Task
@@ -25,7 +25,7 @@ async def pull_tasks():
 
 
 # TODO(shrewd): implement PQ wrapper to get rid of type cast hack
-async def push_tasks(dispatch: TaskCallback):
+async def push_tasks(dispatch: AsyncCallback[Task, None]):
     while True:
         if pq.empty():
             pq_updated.clear()
@@ -47,7 +47,7 @@ async def push_tasks(dispatch: TaskCallback):
         _, task = pq.get_nowait()
         await dispatch(task)
 
-async def main(dispatch: TaskCallback):
+async def main(dispatch: AsyncCallback[Task, None]):
     async with asyncio.TaskGroup() as task_group:
         task_group.create_task(pull_tasks())
         task_group.create_task(push_tasks(dispatch))
