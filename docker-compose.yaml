@@ -24,6 +24,8 @@ services:
     environment:
       PYTHONUNBUFFERED: "1"
       PYTHONPATH: /app/src
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: "5432"
     volumes:
       - ./main.py:/app/main.py:ro
       - ./src:/app/src:ro
