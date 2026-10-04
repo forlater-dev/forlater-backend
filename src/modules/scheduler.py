@@ -1,8 +1,7 @@
 import asyncio
 from asyncio import PriorityQueue
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING, Awaitable, Callable, cast
 
-from db.tasks import find_many
 from shared.clock import utc_now
 
 if TYPE_CHECKING:
@@ -15,9 +14,10 @@ if TYPE_CHECKING:
 pq: PriorityQueue[tuple[datetime, Task]] = PriorityQueue()
 pq_updated = asyncio.Event()
 
-async def pull_tasks():
+
+async def pull_tasks(fetch_due: Callable[[], Awaitable[list[Task]]]):
     while True:
-        tasks = await find_many()
+        tasks = await fetch_due()
         for task in tasks:
             await pq.put((task.date, task))
         pq_updated.set()
@@ -47,9 +47,12 @@ async def push_tasks(dispatch: AsyncCallback[Task, None]):
         _, task = pq.get_nowait()
         await dispatch(task)
 
-async def main(dispatch: AsyncCallback[Task, None]):
+
+async def main(
+    fetch_due: Callable[[], Awaitable[list[Task]]], dispatch: AsyncCallback[Task, None]
+):
     async with asyncio.TaskGroup() as task_group:
-        task_group.create_task(pull_tasks())
+        task_group.create_task(pull_tasks(fetch_due))
         task_group.create_task(push_tasks(dispatch))
 
 
