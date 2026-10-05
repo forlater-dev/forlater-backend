@@ -7,10 +7,10 @@ load_dotenv()
 
 WORKOS_API_KEY = os.getenv("WORKOS_API_KEY")
 WORKOS_CLIENT_ID = os.getenv("WORKOS_CLIENT_ID")
-REDIRECT_URI = os.getenv("WORKOS_REDIRECT_URI", "http://localhost:3000/auth/callback")
+REDIRECT_URI = os.getenv("WORKOS_REDIRECT_URI", "http://localhost:8000/auth/callback")
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:3000")
 DATABASE_URL = os.getenv("DATABASE_URL") or URL.create(
-    "postgresql+psycopg",
+    "postgresql+asyncpg",
     username=os.getenv("POSTGRES_USER", "forlater"),
     password=os.getenv("POSTGRES_PASSWORD", "change-me"),
     host=os.getenv("POSTGRES_HOST", "localhost"),
@@ -19,3 +19,4 @@ DATABASE_URL = os.getenv("DATABASE_URL") or URL.create(
 )
 
 workos_client = WorkOSClient(api_key=WORKOS_API_KEY, client_id=WORKOS_CLIENT_ID)
+

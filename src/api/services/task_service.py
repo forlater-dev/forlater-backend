@@ -1,13 +1,13 @@
 from datetime import datetime, timezone
 
 from fastapi import HTTPException
-from sqlmodel import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from api.models import Task
 from api.schemas import TaskCreate
 
 
-def create_task(db: Session, user_id: str, data: TaskCreate) -> Task:
+async def create_task(db: AsyncSession, user_id: str, data: TaskCreate) -> Task:
     target_date = data.due_date.astimezone(timezone.utc)
     if target_date <= datetime.now(timezone.utc):
         raise HTTPException(status_code=400, detail="The date provided is not in the future")
@@ -20,9 +20,9 @@ def create_task(db: Session, user_id: str, data: TaskCreate) -> Task:
     )
     db.add(task)
     try:
-        db.commit()
+      await db.commit()
     except Exception:
-        db.rollback()
+        await db.rollback()
         raise
-    db.refresh(task)
+    await db.refresh(task)
     return task
