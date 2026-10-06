@@ -1,7 +1,6 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from api.db import engine
-from api.db import init_db
 from fastapi.middleware.cors import CORSMiddleware
 from api.config import FRONTEND_URL
 from api.routers import auth, tasks
@@ -9,7 +8,6 @@ from api.routers import auth, tasks
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    await init_db()
     try:
         yield
     finally:

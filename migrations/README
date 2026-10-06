@@ -1,0 +1,27 @@
+Alembic owns PostgreSQL schema changes. API startup does not create tables.
+
+Apply migrations locally (uses .env):
+    uv run alembic upgrade head
+
+Apply migrations using the Docker environment:
+    docker compose build api
+    docker compose run --rm api /app/.venv/bin/alembic upgrade head
+    docker compose up -d api
+
+Create a migration after changing models:
+    uv run alembic revision --autogenerate -m "describe the change"
+Review the generated migration before applying it. Autogeneration is a draft;
+it cannot infer data transformations or renamed columns safely.
+
+Check schema alignment:
+    uv run alembic check
+
+Revision 0001 describes the legacy create_all schema. The inspected existing
+local database was stamped at 0001 before applying 0002. For new empty databases,
+run upgrade head without stamping. Never stamp a schema that does not match.
+
+Revision 0002 deletes ALL task and user records before changing integer user IDs
+to WorkOS string IDs and adding the foreign key. This was authorized only for
+this disposable development database. It must not be used on a database with
+data to preserve. Downgrade from 0002 is deliberately unsupported because
+WorkOS IDs cannot be converted back to meaningful integer identities.
