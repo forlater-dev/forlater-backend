@@ -1,7 +1,7 @@
 import asyncio
 
-from src.contracts.channels.main import Channel
-from src.contracts.task._typing import Task
+from contracts.channels.main import Channel
+from contracts.task._typing import Task
 
 
 class InMemoryChannel(Channel):

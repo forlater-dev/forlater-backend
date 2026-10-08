@@ -11,5 +11,5 @@ type Pull = Callable[[], Awaitable[list[Task]]]
 @dataclass
 class Task:
     id: int
-    url: int
+    url: str
     date: datetime

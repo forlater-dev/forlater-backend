@@ -1,7 +1,7 @@
 from collections.abc import Awaitable, Callable
 
-from executor.result import ExecutionResult
-from task._typing import Task
+from contracts.executor.result import ExecutionResult
+from contracts.task._typing import Task
 
 type AsyncCallback[T, R] = Callable[[T], Awaitable[R]]
 

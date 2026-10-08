@@ -1,8 +1,8 @@
 from typing import TYPE_CHECKING, Protocol
 
 if TYPE_CHECKING:
-    from channels._typing import Push
-    from task._typing import Pull
+    from contracts.channels._typing import Push
+    from contracts.task._typing import Pull
 
 class Scheduler(Protocol):
     async def pull_tasks(self, fetch: Pull) -> None: ...

@@ -1,10 +1,10 @@
 from typing import TYPE_CHECKING
 
-from srcc.contracts.executor.main import Executor as ExecutorProtocol
+from contracts.executor.main import Executor as ExecutorProtocol
 
 if TYPE_CHECKING:
-    from srcc.contracts.executor.result import ExecutionResult
-    from srcc.contracts.tasks._typing import Task
+    from contracts.executor.result import ExecutionResult
+    from contracts.task._typing import Task
 
 
 class HttpExecutor(ExecutorProtocol):

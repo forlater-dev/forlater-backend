@@ -3,6 +3,8 @@
 # For a full list of options, see https://docs.astral.sh/ruff/settings/
 
 target-version = "py314"
+extend-exclude = ["src/api", "migrations"]
+force-exclude = true
 
 [lint]
 ignore = [

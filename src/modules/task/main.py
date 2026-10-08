@@ -6,6 +6,6 @@ if TYPE_CHECKING:
     from contracts.task._typing import Task
 
 
-class TaksService(TaskServiceProtocol):
+class TaskService(TaskServiceProtocol):
     async def find_due(self) -> list[Task]:
         raise NotImplementedError
