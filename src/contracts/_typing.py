@@ -1,7 +1,7 @@
 from collections.abc import Awaitable, Callable
 
-from db._typing import Task
-from execution_results.main import ExecutionResult
+from executor.result import ExecutionResult
+from task._typing import Task
 
 type AsyncCallback[T, R] = Callable[[T], Awaitable[R]]
 
@@ -9,4 +9,3 @@ type AsyncCallback[T, R] = Callable[[T], Awaitable[R]]
 type TaskSource = Callable[[], Awaitable[Task]]
 type TaskExecutor = AsyncCallback[Task, ExecutionResult]
 type ResultCallback = AsyncCallback[ExecutionResult, None]
-
