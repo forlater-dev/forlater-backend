@@ -27,3 +27,13 @@ class TaskRead(TaskBase):
     id: int
     status: TaskStatus
     created_at: datetime
+
+class ApiKeyCreate(SQLModel):
+    name: Annotated[str,StringConstraints(strip_whitespace=True, min_length=1,max_length=100)]
+
+class ApiKeyRead(SQLModel):
+    id: int| None
+    name: str
+    prefix: str
+    created_at: datetime
+    key: str

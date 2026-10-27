@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from api.db import engine
 from fastapi.middleware.cors import CORSMiddleware
 from api.config import FRONTEND_URL
-from api.routers import auth, tasks
+from api.routers import auth, tasks, api_keys
 
 
 @asynccontextmanager
@@ -24,5 +24,5 @@ app.add_middleware(
 )
 
 app.include_router(auth.router)
-
 app.include_router(tasks.router)
+app.include_router(api_keys.router)
